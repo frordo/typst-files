@@ -31,6 +31,24 @@
     body
   )
 }
+
+#let problem(title, body) = {
+  showybox(
+    frame: (
+      border-color: blue.darken(50%),
+      title-color: blue.lighten(67%), //6 7
+      body-color: blue.lighten(87%)
+    ),
+    title-style: (
+      color: black,
+      weight: "bold",
+      align: left
+    ),
+
+    title: title,
+    body
+  )
+}
 = Why Study DS&A?
 
 Problem: We have a lot of data. We have a finite amount of computing power, time and memory. We require fairly complicated things from our raw datasets. The question arises--how do we store data? Solution: we develop data structures and associated algorithms to suit our needs.  
@@ -76,4 +94,22 @@ If $f = calO(g)$ and $f = Omega(g)$, we say that $f = Theta(g)$.
 
 == Constant Factors 
 
-The $Theta(f)$ system only cares about asymptotic time complexity, but not about actual running time. To give an example, consider $f(x) = 10^100 x $ and $g(x) = x$. Then $f = Theta(g)$ but the running time of $f$ is impractical.
+The $Theta(f)$ system only cares about asymptotic time complexity, but not about actual running time. To give an example, consider $f(x) = 10^100 x $ and $g(x) = x$. Then $f = Theta(g)$ but the running time of $f$ is impractical. So even if an algorithm is better asymptotically, it need not be better in practical use. It only guarantees that it will be better for large datasets. We will see examples of this later.
+
+= Basic Data Structures
+
+= Sorting
+
+#problem("Problem", [
+Given a sequence of numbers $A = (a_i)_(i=1)^n$ and a _total ordering_ on $A$, denoted by $<=$, return a permutation of $A$, say $A'$, that satisfies $a_1^' <= a_2^' <= dots.h.c <= a_n^'$.
+
+For example, consider the sequence $(26, 58, 31, 41, 67, 41)$ and the order to be the ascending order. Then the expected output is $(26, 31, 41, 41, 58, 67)$.
+
+A _total ordering_ $<=$ satisfies
++ $a <= a$ (reflexive)
++ if $a <= b$ and $b <= c$ then $a <= c$ (transitive)
++ if $a <= b$ and $b <= a$ then $a = b$ (antisymmetric)
++ $a <= b$ or $b <= a$ (totality)
+])
+
+We will usually use numeric or lexographic sorting. 
