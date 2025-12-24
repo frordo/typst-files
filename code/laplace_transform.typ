@@ -146,6 +146,7 @@ $ LL(e^(a t)) &= 1/(s-a) "for" s != a\
   LL(sin a t) &= a/(s^2+a^2)\
   LL(cos a t) &= s/(s^2 + a^2)\
   LL(t^n) &= Gamma(n+1)/s^(n+1)\
+  LL(ln t) &= (ln s + gamma)/s\
   LL(u(t-a)) &= e^(-a s)/s "where" u "is the Heaviside step function"\
   LL(delta(t-a)) &= e^(-a s)\
   LL(u(t-a)f(t-a)) &= e^(-a s)F(s)\
@@ -154,13 +155,16 @@ $ LL(e^(a t)) &= 1/(s-a) "for" s != a\
   LL(f''(t)) &= s^2 F(s) - s f(0) - f'(0)\
   LL(f^((n))(t)) &= s^n F(s) - s^(n-1) f(0) - dots.c - s f^((n-2))(0) - f^((n-1))(0)\
   LL(integral_0^tau f(tau) d tau) &= F(s)/s\
-  LL(e^(-a t)f(t)) &= F(s-a) "(the shift property)"\
-  LL(f*g) &= F(s) G(s)
+  LL(e^(a t)f(t)) &= F(s-a) "(the shift property)"\
+  LL(f*g) &= F(s) G(s)\
+  LL(t f(t)) &= -F'(s)\
+  LL(f(t)/t) &= integral_s^oo F(s') d s'
+  
   $
 ])
 
 = Misc Notes
-$ LL(g) -> "use by parts" $
+$ LL(f') -> "use by parts" $
 $ LL(integral_0^t) -> "change order of integration, otherwise convulution" $
 
 $ (f*g)(t) =^("def") integral_(-oo)^oo f(tau) g(t-tau) d tau $
@@ -169,4 +173,50 @@ $ LL(f*g) = F(s) G(s) $
 
 Set $G = 1$ (the step function) and the result follows.
 
-This holds for nested integrals! $ LL(integral^n) = F(s)/s^n $. This is true by Cauchy's repeated integration formula, and then convolution theorem.
+This holds for nested integrals! $ LL(integral^n) = F(s)/s^n $
+This is true by Cauchy's repeated integration formula, and then convolution theorem.
+
+Feynman's trick! $ LL(t f(t)) = -F'(s) $
+This generalizes into $t^n f(t)$.
+
+We want to prove $LL(f(t)/t) &= integral_s^oo F(s') d s'$. We will use the same Feynman's trick, again!
+
+$ Q(s') &= integral_0^oo e^(-s t) f(t)/t d t\
+(d Q)/(d s') &= - integral_0^oo e^(-s t) f(t) d t = F(s)\
+integral d Q &= - integral F(s') d s'
+$
+
+Now we want to set appropriate bounds for the above integral. One of the bounds should be $s$, the variable we want. What should the other one be? $0$ doesn't work, the next thing we try is $oo$, since that makes the exponential term zero.
+$ integral_s^oo d Q &= - integral_s^oo F(s') d s'\
+  Q(s) &= integral_s^oo F(s') d s'
+$
+
+Now let's try $LL(ln t)$.
+
+$ integral_0^oo e^(-s t) ln t d t &= lim_(n -> oo) integral_0^(n/s) (1 - (s t)/n)^n ln t d t\
+&= lim_(n -> oo) -n/s integral_0^1 x^n ln(n(1-x)/s) d x\
+&= lim_(n -> oo) -n/s (integral_0^1 x^n ln(1-x) d x+ integral_0^1 x^n ln (n/s) d x)\
+&= lim_(n -> oo) -n/s (-integral_0^1 x^n sum_(j=1)^oo x^j/j d x + ln(n/s) 1/(n+1) )\
+&= lim_(n -> oo) -n/s ( -sum_(j=1)^oo integral_0^1 x^(j+n)/j d x + ln(n/s) 1/(n+1) )\
+&= lim_(n -> oo) -n/s ( -sum_(j=1)^oo 1/j(j+n+1) + ln(n/s) 1/(n+1) )\
+$
+
+Now let us look at that infinite sum
+$ sum_(j=1)^oo 1/j(j+n+1) &= 1/(n+1) sum_(j=1)^oo (1/j - 1/(j+n+1))\
+&= 1/(n+1) sum_(j=1)^(n+1) 1/j\
+&= H_(n+1)/(n+1) $
+
+For large $n$, $H_n ~ ln(n) + gamma$. Using this, 
+$ LL(ln t) &= lim_(n -> oo) -n/s ( -sum_(j=1)^oo 1/j(j+n+1) + ln(n/s) 1/(n+1) )\ 
+&= lim_(n -> oo) n/s (ln(n/s)-ln(n) - gamma)/(n+1)\
+&= #rect()[$ (ln s + gamma)/s $]
+
+$
+
+Alternate method:
+$ LL(t^n) &= Gamma(n+1)/(s^(n+1))\
+d/(d n) integral_0^oo e^(-s t) t^n d t &= d/(d n) Gamma(n+1)/(s^(n+1))\
+d/(d n) integral_0^oo e^(-s t) t^(n) ln t d t &= (s^(n+1) Gamma'(n+1) - Gamma(n+1)s^(n+1) ln s)/s^(2n+2)\
+$
+
+Set $n=0$ and compute to get the result. However $Gamma'(1)$ is a little tricky to get, and needs the same series expansion as above.
