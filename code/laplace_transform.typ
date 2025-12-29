@@ -89,8 +89,27 @@ line(length: 100%)
 #let LL(x) = $cal(L){#x}$
 #let LLI(x) = $cal(L)^(-1){#x}$
 
-= What's the Point?
-Differential equations are annoying to solve. Piecewise/discontinuous functions are also annoying. The Laplace transform is here to save the day!
+In the first few drafts of this I intended it to be a reference but it has taken control and transformed into more of an expository one. Largely inspired by Kevin Zhou and Evan Chen's notes.
+
+*TODO*: cover/title page. citations! fix colors (pick a palette?)
+
+= Introduction
+
+In our first semester we learnt a bit of _operational calculus_ where we declared $d/(d t) = D$ and then manipulated $D$ algebraically. For instance $ 1/D = D^(-1) = integral $
+$ D/(D-a) = 1/(1-a/D) = sum a^n D^(-n) = e^(a t) $
+and other such atrocities. Oliver Heaviside, who developed operational calculus, faced criticism for this lack of rigor, to which he replied, _'Shall I refuse my dinner because I do not fully understand the process of digestion?'_ Here we seek to understand the process of digestion.
+
+The _Laplace transform_ will attempt to set this on a rigorous foundation. Instead of differentiation being treated as multiplication by $D$, the Laplace transform will convert differentiation in time to multiplication in the $s$ plane.
+
+Like how logarithms convert multiplication to addition, and exponentiation to multiplication, the Laplace transform converts differentiation to multiplication and integration to division.
+
+Another nice thing about the Laplace transform is that it deals with initial conditions and some discontinuous functions.
+
+= History
+
+The Laplace transform is named after Pierre-Simon Laplace, a French mathematician. 
+
+TODO: cut?
 
 = Definition
 
@@ -163,7 +182,22 @@ $ LL(e^(a t)) &= 1/(s-a) "for" s != a\
   $
 ])
 
+#solution("Initial and Final Value Theorems", [
+  *Initial Value Theorem*: $ lim_(s -> oo) s F(s) = f(0^+) $
+  Proof:
+  $ lim_(s -> oo) s integral_0^oo e^(-s t) f(t) d t &=^(t -> t/s ) lim_(s -> oo)integral_0^oo  e^(-t) f(t/s) d t =   integral_0^oo lim_(s -> oo)  e^(-t) f(t/s) d t = f(0^+) $
+Alternatively,
+  $ LL(f'(t)) = s F(s) - f(0^+) $
+  $ lim_(s -> oo) => "LHS = 0" => s F(s) - f(0^+) = 0 $
+  Exercise: what exactly does $s->oo$ mean if $s$ is complex?
+
+  *Final Value Theorem*:
+  $ lim_(s -> 0) s F(s) = f(oo) $
+  Note that this holds when all roots of the denominator of $s F(s)$ are negative.
+])
+
 = Misc Notes
+
 $ LL(f') -> "use by parts" $
 $ LL(integral_0^t) -> "change order of integration, otherwise convulution" $
 
