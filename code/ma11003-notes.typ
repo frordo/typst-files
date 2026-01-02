@@ -1,6 +1,7 @@
 #import "@preview/lovelace:0.3.0": *
 #import "@preview/showybox:2.0.4": showybox
 #import "@preview/cetz:0.4.2"
+#import "@preview/diverential:0.2.0": *
 
 #set document(
   title: [MA11003: Advanced Calculus],
@@ -196,3 +197,68 @@ We say
   $ lim_((x_0, y_0) -> (x, y)) f(x, y) = L $
   if for all $delta>0$ there exists $ep() > 0$ such that $|f(x,y) - L| < ep()$ whenever $sqrt((x - x_0)^2 + (y - y_0)^2) < delta$, that is, any point in the deleted $delta$ neighborhood of $(x_0,y_0)$ gets mapped onto the interval $(L - ep(), L + ep())$.
 ])
+
+= Integral Calculus
+
+#solution("Improper Integrals", [
+We define
+  $ integral_0^oo f(x) d x=^"def" lim_(a -> oo) integral_0^a f(x) d x $provided that the limit exists. Similarly, if $f$ is not defined at a point $c$, then
+  $ integral_a^b f(x) d x = lim_(i -> c^-) integral_a^i f(x) d x + lim_(j -> c^+) integral_j^b f(x) d x $
+  We say that an integral converges if the limit exists.
+])
+
+== Tests for Convergence
+
+#solution("Improper Integrals", [
+  #subhead("Comparison Test")#label("ct"):
+  Suppose $f$ and $g$ are integrable. Suppose $0 <= f(x) <= g(x)$ over an interval $I$. Then 
+  $ integral_I g "converges" => integral_I f "converges" $
+
+  #subhead("Limit Comparison Test")#label("lct"):
+  Suppose $f$ and $g$ are integrable. Suppose $f(x), g(x) >= 0$ over an interval $[a, oo]$. Let $display(lim_(x -> oo) f(x)/g(x) = c)$
+
+  - If $c$ is finite: $ integral_a^oo g "converges" <==> integral_a^oo f "converges" $ $ integral_a^oo g "diverges" <==> integral_a^oo f "diverges". $
+  - If $c = 0$, $ integral_a^oo g "converges" => integral_a^oo f "converges". $
+
+  #subhead("Absolute Convergence")#label("ab"):
+   $ integral_I |f| "converges" ==> integral_I f "converges". $
+
+  #subhead("Dirichlet's Test")#label("dt"):
+  Suppose $f$ and $g$ are integrable. Let
+  + $f(x)$ be decreasing and $lim_(x-> oo) f(x) = 0$.
+  + $g(x)$ be continuous and $integral_a^y g(x)d x$ be bounded for all $y > a$.
+  Then $ integral_a^oo f(x) g(x) d x "converges". $
+])
+
+== Beta and Gamma Functions
+
+#solution("Gamma Function", [
+  $ Gamma(n) = integral_0^oo x^(n-1) e^(-x) d x $
+  Get used to the $n-1$. Some properties:
+  + $Gamma(1) = 1$
+  + $Gamma(n+1) = n Gamma(n)$
+  + $Gamma(n+1) = n!$
+  + $Gamma(z)Gamma(1-z) = pi/sin(pi z)$
+])
+
+#solution("Beta Function", [
+  $ beta(m, n) = integral_0^1 x^(n-1) (1-x)^(m-1) d x $
+  Again, get used to the $-1$'s. Some properties:
+  + $beta(m,n) = beta(n,m)$
+  + $ beta(m,n)= 2 integral_0^(pi/2) sin^(2m-1)(t) cos^(2n-1)(t) d t $
+  + $ beta(m, n) = integral_0^oo x^(m-1)/((1+x)^(m+n)) d x $
+  + $ beta(m,n) = (Gamma(m) Gamma(n)) / Gamma(m+n) $
+])
+== Feynman's Trick and Leibniz's Rule
+
+#solution("Leibniz Rule", [
+  Let $ phi(x) = integral_(a(x))^(b(x)) f(x, t) d t. $ Then
+  $ (d phi)/(d x) = f(x, b(x)) b'(x) - f(x, a(x)) a'(x) + underbrace(integral_(a(x))^(b(x)) dvp(f(x, t),x) d t, "Feynman's Trick" ) $
+])
+
+== The Jacobian
+#solution("The Jacobian", [
+  $x=phi(u,v)$ $y = psi(u, v)$
+  $ J = mat(dvp(x,u), dvp(x,v); dvp(y,u), dvp(y,v)) $
+])
+= Vector Calculus
